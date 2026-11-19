@@ -1,0 +1,60 @@
+name: Test Automation
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  schedule:
+    - cron: "30 0 * * *"
+  workflow_dispatch:
+    inputs:
+      browser:
+        description: Browser
+        type: choice
+        options: [chrome, firefox, all]
+        default: chrome
+      suite:
+        description: TestNG suite file
+        default: testng.xml
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest,Windows-latest,AWS-Linux-2,MacOS-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: ${{ fromJSON(inputs.browser == 'all' && '["chrome","firefox"]' || format('["{0}"]', inputs.browser || 'chrome')) }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+          cache: maven
+
+      - name: Run tests
+        run: mvn -B clean test -Dbrowser=${{ matrix.browser }} -Dheadless=true -DsuiteFile=${{ inputs.suite || 'testng.xml' }}
+
+      - name: Upload reports and logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results-${{ matrix.browser }}
+          path: |
+            target/surefire-reports/
+            target/logs/
+            screenshots/
+          if-no-files-found: ignore
+          retention-days: 14

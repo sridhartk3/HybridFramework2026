@@ -1,0 +1,24 @@
+# Build output
+target/
+bin/
+test-output/
+
+# Eclipse / IntelliJ / VS Code
+.classpath
+.project
+.settings/
+.idea/
+*.iml
+.vscode/
+
+# Logs, screenshots, reports generated at runtime
+*.log
+screenshots/
+reports/
+
+# Excel lock/temp files (the real .xlsx test data IS committed)
+~$*.xlsx
+
+# Secrets - never commit. Use GitHub Secrets in CI.
+secrets.properties
+*.env

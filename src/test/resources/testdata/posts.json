@@ -1,0 +1,4 @@
+[
+  { "run": "Y", "title": "hello",  "body": "first post",   "userId": 1, "expectedStatus": 201 },
+  { "run": "Y", "title": "second", "body": "another post", "userId": 2, "expectedStatus": 201 }
+]

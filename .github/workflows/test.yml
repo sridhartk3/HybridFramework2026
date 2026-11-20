@@ -16,6 +16,7 @@ on:
         default: chrome
       suite:
         description: TestNG suite file
+        type: string
         default: testng.xml
 
 permissions:
@@ -27,7 +28,7 @@ concurrency:
 
 jobs:
   test:
-    runs-on: ubuntu-latest,Windows-latest,AWS-Linux-2,MacOS-latest
+    runs-on: ubuntu-latest
     timeout-minutes: 30
     strategy:
       fail-fast: false

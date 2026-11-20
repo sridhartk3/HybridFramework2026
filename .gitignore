@@ -1,4 +1,8 @@
 target/
+test-output/
+reports/
+screenshots/
+*.log
 .idea/
 .vscode/
 .classpath

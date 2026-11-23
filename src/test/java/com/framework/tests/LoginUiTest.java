@@ -34,3 +34,5 @@ public class LoginUiTest extends UiBaseTest {
                 "Expected [" + expectedMsg + "] but got [" + actual + "]");
     }
 }
+
+
